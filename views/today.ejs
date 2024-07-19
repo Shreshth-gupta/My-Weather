@@ -1,0 +1,29 @@
+<% if (weatherData_c) { %>
+    <div id="openweathermap-widget-container">
+        <div id="openweathermap-widget-15"></div>
+    </div>
+
+<script>
+    var weatherData_c = JSON.parse('<%- JSON.stringify(weatherData_c) %>');
+    console.log(weatherData_c);
+
+    window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];  
+    window.myWidgetParam.push({
+      id: 15,
+      cityid: weatherData_c.id, 
+      appid: '9fdf6e808cfe2098244e8ab9e85fda33',
+      units: 'metric',
+      containerid: 'openweathermap-widget-15'
+    });
+
+    (function() {
+      var script = document.createElement('script');
+      script.async = true;
+      script.charset = "utf-8";
+      script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js";
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(script, s);
+    })();
+</script>
+
+<% } %>

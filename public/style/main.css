@@ -1,0 +1,36 @@
+#location{
+    height: 50px;
+    width: 200px;
+    align-items: center;
+    text-overflow: ellipsis;
+    text-decoration:solid ;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font: size 30px;
+}
+.container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.form-container {
+  max-width: 500px;
+  width: 100%;
+}
+.form-floating input {
+  height: 3rem;
+}
+#openweathermap-widget-container {
+  position: relative;
+  height: 100vh; /* Full viewport height */
+  width: 100%; /* Full width */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Hide overflow to prevent scrollbars */
+}
+#openweathermap-widget-15 {
+  position: absolute;
+  transform: scale(1.7); /* Scale up the widget */
+  transform-origin: center; /* Center the scaling */
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaflet Map with OpenWeatherMap Tile Layer</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div id="map" style="width: 100%; height: 500px;"></div>
+    
+    <script>
+        // Initialize the map and set its view
+        var map = L.map('map').setView([28.455252,77.504608], 7);
+
+        // Add OpenStreetMap base tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Add the OpenWeatherMap tile layer
+        L.tileLayer('https://tile.openweathermap.org/map/pressure_new/{z}/{x}/{y}.png?appid=9fdf6e808cfe2098244e8ab9e85fda33', {
+            attribution: '&copy; <a href="https://openweathermap.org/">OpenWeatherMap</a>'
+        }).addTo(map);
+    </script>
+</body>
+</html>
+<footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="/" class="nav-link px-2 text-body-secondary">Home</a></li>
+      <li class="nav-item"><a href="/today" class="nav-link px-2 text-body-secondary">Today</a></li>
+      <li class="nav-item"><a href="/3days" class="nav-link px-2 text-body-secondary">3 day</a></li>
+      <li class="nav-item"><a href="/about" class="nav-link px-2 text-body-secondary">About</a></li>
+    </ul>
+    <p class="text-center text-body-secondary">© 2024 Company, Inc</p>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </footer>
+
+  <!-- <%= weatherData_c.id %> -->
