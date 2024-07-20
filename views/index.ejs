@@ -1,3 +1,4 @@
+
 <%- include("header.ejs") %>
 <% if (weatherData_c) { %>
   <%- include("today.ejs") %>
@@ -5,35 +6,22 @@
   <%- include("form.ejs") %>
 <% } %>
 <% if (news) { %>
-  <div class="container-fluid">
+  <div class="container-fluid news-section">
     <div class="row gx-4 gy-3 mb-2 align-items-stretch">
-      <% news.forEach((item, index) => { %>
+      <% news.forEach((item) => { %>
         <div class="col-md-6 d-flex">
           <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative flex-grow-1">
             <div class="col p-4 d-flex flex-column position-static">
               <h3 class="mb-0"><%= item.title %></h3>
               <p class="card-text mb-auto"><%= item.abstract %></p>
-              <a
-                href="<%= item.url %>"
-                class="icon-link gap-1 icon-link-hover stretched-link"
-              >
+              <a href="<%= item.url %>" class="icon-link gap-1 icon-link-hover stretched-link">
                 Continue reading
                 <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
               </a>
             </div>
             <% if (item.multimedia && item.multimedia[0]) { %>
               <div class="col-auto d-flex align-items-center">
-                <img
-                  src="<%= item.multimedia[0].url %>"
-                  alt=""
-                  class="bd-placeholder-img"
-                  width="300"
-                  height="250"
-                  role="img"
-                  aria-label="Placeholder: Thumbnail"
-                  preserveAspectRatio="xMidYMid slice"
-                  focusable="false"
-                />
+                <img src="<%= item.multimedia[0].url %>" alt="" class="news-img" />
               </div>
             <% } %>
           </div>
