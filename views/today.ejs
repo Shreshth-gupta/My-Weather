@@ -1,13 +1,14 @@
-<% if (weatherData_c) { %>
+
 <div id="openweathermap-widget-container" class="weather-widget-container">
   <div id="openweathermap-widget-15"></div>
 </div>
 
 <script>
-  var weatherData_c = JSON.parse("<%- JSON.stringify(weatherData_c) %>");
+  var weatherData_c = JSON.parse('<%- JSON.stringify(weatherData_c) %>');
+  console.log("in the script tag with wedge");
   console.log(weatherData_c);
 
-  window.myWidgetParam ? window.myWidgetParam : (window.myWidgetParam = []);
+  window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];
   window.myWidgetParam.push({
     id: 15,
     cityid: weatherData_c.id,
@@ -20,10 +21,8 @@
     var script = document.createElement("script");
     script.async = true;
     script.charset = "utf-8";
-    script.src =
-      "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js";
+    script.src ="//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js";
     var s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(script, s);
   })();
 </script>
-<% } %>
