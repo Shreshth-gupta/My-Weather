@@ -1,9 +1,10 @@
-/* General body styling */
+/* Reset margin and padding for consistency */
 body, h1, h3, p {
   margin: 0;
   padding: 0;
 }
 
+/* General body styling */
 body {
   font-family: 'Arial', sans-serif;
   background-color: #f0f4f8;
@@ -27,7 +28,6 @@ body {
   fill: white;
 }
 
-/* Heading styling */
 h1 {
   font-size: 2rem;
   color: #333;
@@ -42,14 +42,92 @@ h1 {
   margin-bottom: 1rem;
 }
 
+/* Navigation link styles */
+.nav-link {
+  color: white !important;
+}
+
+.nav-link.active {
+  background-color: #007bff;
+  color: white !important;
+}
+
 /* Content container styling */
-.content-container {
-  padding: 20px;
-  background-color: #ffffff;
+.container.form-section {
+  background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 20px auto;
-  max-width: 1200px;
+  padding: 2rem;
+}
+
+.form-container {
+  max-width: 500px;
+  width: 100%;
+}
+
+.form-floating input {
+  height: 3rem;
+  border-radius: 0.375rem;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* News section styling */
+.news-section {
+  margin-top: 2rem;
+}
+
+.news-img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Widget container styling */
+.widget-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center;     /* Center vertically */
+  height: 60vh;            /* Adjust height as needed */
+  width: 100%;             /* Full width of the parent container */
+  max-width: 1200px;       /* Optional: Limit the maximum width of the container */
+  margin: 0 auto;          /* Center the container horizontally */
+  padding: 20px;          /* Optional: Add padding around the container */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  background-color: #f5f5f5; /* Light gray background for contrast */
+}
+
+/* Widget styling */
+#openweathermap-widget-11 {
+  display: flex; 
+  justify-content: center;
+  align-items: center; 
+  max-width: 1000px; 
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  box-sizing: border-box; 
+}
+
+.weather-widget-container {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#openweathermap-widget-15 {
+  position: absolute;
+  transform: scale(1.7);
+  transform-origin: center;
 }
 
 /* Map container styling */
@@ -69,32 +147,6 @@ h1 {
   border: 2px solid #ddd; /* Optional border for better visibility */
 }
 
-/* Widget container styling */
-.widget-container {
-  display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center;     /* Center vertically */
-  height: 60vh;            /* Adjust height as needed */
-  width: 100%;             /* Full width of the parent container */
-  max-width: 1200px;       /* Optional: Limit the maximum width of the container */
-  margin: 0 auto;          /* Center the container horizontally */
-  padding: 20px;          /* Optional: Add padding around the container */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
-  background-color: #f5f5f5; /* Light gray background for contrast */
-}
-
-/* Widget styling for #openweathermap-widget-11 */
-#openweathermap-widget-11 {
-  display: flex; /* Use flexbox for centering */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  max-width: 1000px; /* Set a maximum width for the widget */
-  width: 100%; /* Full width of the parent container */
-  height: auto; /* Maintain aspect ratio */
-  margin: 0 auto; /* Center the widget horizontally */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
-}
-
 /* Footer styling */
 .footer-bg {
   background: #89a9c9;
@@ -103,7 +155,6 @@ h1 {
   text-align: center;
 }
 
-/* Footer link styling */
 .footer .nav-link {
   color: #ddd;
 }
