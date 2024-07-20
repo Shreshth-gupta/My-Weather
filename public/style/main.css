@@ -162,3 +162,37 @@ h1 {
 .footer .nav-link:hover {
   color: #fff;
 }
+
+/* Color Legend Styling */
+.legend {
+  background: white;
+  padding: 10px;
+  line-height: 18px;
+  color: #555;
+  font-size: 12px;
+  border-radius: 5px;
+}
+
+.legend-scale {
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.legend-scale i {
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin-right: 8px;
+  opacity: 0.7;
+}
+
+.legend-labels {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+}
+
+.legend-labels li {
+  margin-bottom: 2px;
+}

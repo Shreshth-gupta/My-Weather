@@ -22,57 +22,76 @@
 <div id="map-container">
   <div id="map"></div>
 </div>
-
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
-  console.log("we are in map");
-  console.log(weatherData);
+    // Initialize the map and set its view with a default zoom level
+    var map = L.map('map').setView([<%= weatherData.coord.lat %>, <%= weatherData.coord.lon %>], 10);
 
-  // Initialize the map and set its view with a default zoom level
-  var map = L.map('map').setView([<%= weatherData.coord.lat %>, <%= weatherData.coord.lon %>], 10);
+    // Add OpenStreetMap base tile layer
+    var baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
-// Add OpenStreetMap base tile layer
-var baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+    // Define the OpenWeatherMap layers
+    var cloudsLayer = L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=9fdf6e808cfe2098244e8ab9e85fda33', {
+        attribution: '&copy; <a href="https://openweathermap.org/">OpenWeatherMap</a>',
+        maxZoom: 19
+    });
 
-// Define the OpenWeatherMap layers
-var cloudsLayer = L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=9fdf6e808cfe2098244e8ab9e85fda33', {
-    attribution: '&copy; <a href="https://openweathermap.org/">OpenWeatherMap</a>',
-    maxZoom: 19
-});
+    var precipitationLayer = L.tileLayer('https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=9fdf6e808cfe2098244e8ab9e85fda33', {
+        attribution: '&copy; <a href="https://openweathermap.org/">OpenWeatherMap</a>',
+        maxZoom: 19
+    });
 
-var precipitationLayer = L.tileLayer('https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=9fdf6e808cfe2098244e8ab9e85fda33', {
-    attribution: '&copy; <a href="https://openweathermap.org/">OpenWeatherMap</a>',
-    maxZoom: 19
-});
+    var pressureLayer = L.tileLayer('https://tile.openweathermap.org/map/pressure_new/{z}/{x}/{y}.png?appid=9fdf6e808cfe2098244e8ab9e85fda33', {
+        attribution: '&copy; <a href="https://openweathermap.org/">OpenWeatherMap</a>',
+        maxZoom: 19
+    });
 
-var pressureLayer = L.tileLayer('https://tile.openweathermap.org/map/pressure_new/{z}/{x}/{y}.png?appid=9fdf6e808cfe2098244e8ab9e85fda33', {
-    attribution: '&copy; <a href="https://openweathermap.org/">OpenWeatherMap</a>',
-    maxZoom: 19
-});
+    var windLayer = L.tileLayer('https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=9fdf6e808cfe2098244e8ab9e85fda33', {
+        attribution: '&copy; <a href="https://openweathermap.org/">OpenWeatherMap</a>',
+        maxZoom: 19
+    });
 
-var windLayer = L.tileLayer('https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=9fdf6e808cfe2098244e8ab9e85fda33', {
-    attribution: '&copy; <a href="https://openweathermap.org/">OpenWeatherMap</a>',
-    maxZoom: 19
-});
+    var tempLayer = L.tileLayer('https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=9fdf6e808cfe2098244e8ab9e85fda33', {
+        attribution: '&copy; <a href="https://openweathermap.org/">OpenWeatherMap</a>',
+        maxZoom: 19
+    });
 
-var tempLayer = L.tileLayer('https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=9fdf6e808cfe2098244e8ab9e85fda33', {
-    attribution: '&copy; <a href="https://openweathermap.org/">OpenWeatherMap</a>',
-    maxZoom: 19
-});
+    // Define a control with all the layers
+    var overlayMaps = {
+        "Clouds": cloudsLayer,
+        "Precipitation": precipitationLayer,
+        "Pressure": pressureLayer,
+        "Wind": windLayer,
+        "Temperature": tempLayer
+    };
 
-// Define a control with all the layers
-var overlayMaps = {
-    "Clouds": cloudsLayer,
-    "Precipitation": precipitationLayer,
-    "Pressure": pressureLayer,
-    "Wind": windLayer,
-    "Temperature": tempLayer
-};
+    L.control.layers(null, overlayMaps).addTo(map);
 
-L.control.layers(null, overlayMaps).addTo(map);
+    // Add the scale control to the map
+    L.control.scale().addTo(map);
+
+    // Function to check if layer is added and visible
+    var checkLayerVisibility = function(layerName, layer) {
+        layer.addTo(map); // Ensure layer is added to map
+        var bounds = map.getBounds();
+        console.log(layerName + ' bounds: ' + bounds.toBBoxString());
+        layer.on('add', function() {
+            console.log(layerName + ' layer added to map.');
+        });
+
+        layer.on('error', function(e) {
+            console.error(layerName + ' layer failed to load:', e);
+        });
+    };
+
+    checkLayerVisibility('Clouds', cloudsLayer);
+    checkLayerVisibility('Precipitation', precipitationLayer);
+    checkLayerVisibility('Pressure', pressureLayer);
+    checkLayerVisibility('Wind', windLayer);
+    checkLayerVisibility('Temperature', tempLayer);
 </script>
-
 <% } else{ %>
 <div class="container form-section">
   <div class="form-container">
