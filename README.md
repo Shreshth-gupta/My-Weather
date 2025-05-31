@@ -2,16 +2,16 @@
 
 A modern, responsive weather application that provides real-time weather data and forecasts along with relevant news updates.
 
-![Weather App Screenshot](https://via.placeholder.com/800x400?text=Weather+App+Screenshot)
+![Weather App](https://my-weather-t8pc.onrender.com)
 
 ## Features
 
 - **Real-time Weather Data**: Get current weather conditions for any location
-- **Location Detection**: Automatically detect user's location for instant weather updates
+- **Location Detection**: Automatically detect the user's location for instant weather updates
 - **Weekly Forecast**: View detailed 7-day weather forecasts
-- **News Integration**: Latest weather-related news from New York Times API
+- **News Integration**: Latest weather-related news from the New York Times API
 - **Responsive Design**: Optimized for both desktop and mobile devices
-- **Data Caching**: Efficient caching system to reduce API calls and improve performance
+- **Data Caching**: An Efficient caching system to reduce API calls and improve performance
 
 ## Technologies Used
 
