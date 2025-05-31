@@ -1,33 +1,152 @@
+<%- include("header.ejs", { active: 'home' }) %>
 
-<%- include("header.ejs") %>
 <% if (weatherData_c) { %>
   <%- include("today.ejs") %>
 <% } else { %>
   <%- include("form.ejs") %>
-<% } %>
-<% if (news) { %>
-  <div class="container-fluid news-section">
-    <div class="row gx-4 gy-3 mb-2 align-items-stretch">
-      <% news.forEach((item) => { %>
-        <div class="col-md-6 d-flex">
-          <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative flex-grow-1">
-            <div class="col p-4 d-flex flex-column position-static">
-              <h3 class="mb-0"><%= item.title %></h3>
-              <p class="card-text mb-auto"><%= item.abstract %></p>
-              <a href="<%= item.url %>" class="icon-link gap-1 icon-link-hover stretched-link">
-                Continue reading
-                <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
+  
+  <div class="main-container">
+    <% if (news && news.length > 0) { %>
+      <div class="news-section">
+        <h2 class="news-heading">Weather News & Updates</h2>
+        <div class="row g-4">
+          <% news.slice(0, 3).forEach((item) => { %>
+            <div class="col-md-6 col-lg-4 news-item">
+              <div class="card news-card h-100">
+                <% if (item.multimedia && item.multimedia[0]) { %>
+                  <img src="<%= item.multimedia[0].url %>" class="news-img" alt="<%= item.title %>" />
+                <% } %>
+                <div class="news-content">
+                  <h3 class="news-title"><%= item.title %></h3>
+                  <p class="news-abstract"><%= item.abstract %></p>
+                  <a href="<%= item.url %>" class="news-link" target="_blank">
+                    Read more <i class="fas fa-arrow-right ms-1"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+          
+          <% if (news.length > 3) { %>
+            <% news.slice(3).forEach((item) => { %>
+              <div class="col-md-6 col-lg-4 news-item hidden-news" style="display: none;">
+                <div class="card news-card h-100">
+                  <% if (item.multimedia && item.multimedia[0]) { %>
+                    <img src="<%= item.multimedia[0].url %>" class="news-img" alt="<%= item.title %>" />
+                  <% } %>
+                  <div class="news-content">
+                    <h3 class="news-title"><%= item.title %></h3>
+                    <p class="news-abstract"><%= item.abstract %></p>
+                    <a href="<%= item.url %>" class="news-link" target="_blank">
+                      Read more <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            <% }); %>
+            
+            <div class="col-12 text-center mt-4">
+              <button id="showMoreNews" class="btn btn-outline-primary">
+                <i class="fas fa-newspaper me-2"></i>Show More News
+              </button>
+            </div>
+            
+            <script>
+              document.getElementById('showMoreNews').addEventListener('click', function() {
+                const hiddenNews = document.querySelectorAll('.hidden-news');
+                hiddenNews.forEach(item => {
+                  item.style.display = 'block';
+                });
+                this.style.display = 'none';
+              });
+            </script>
+          <% } %>
+        </div>
+      </div>
+    <% } else { %>
+      <div class="alert alert-info mt-4">
+        <i class="fas fa-info-circle me-2"></i> Weather news is currently unavailable. Please check back later.
+      </div>
+    <% } %>
+    
+    <div class="row mt-5">
+      <div class="col-md-6 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h3 class="card-title mb-3">Weather Highlights</h3>
+            <div class="list-group">
+              <a href="#" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">Severe Weather Alerts</h5>
+                  <small class="text-muted"><i class="fas fa-bell"></i></small>
+                </div>
+                <p class="mb-1">Stay informed about severe weather conditions in your area.</p>
+              </a>
+              <a href="#" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">Air Quality Index</h5>
+                  <small class="text-muted"><i class="fas fa-wind"></i></small>
+                </div>
+                <p class="mb-1">Check the air quality in your location and plan accordingly.</p>
+              </a>
+              <a href="#" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">Pollen Forecast</h5>
+                  <small class="text-muted"><i class="fas fa-seedling"></i></small>
+                </div>
+                <p class="mb-1">Get daily pollen forecasts to help manage allergies.</p>
               </a>
             </div>
-            <% if (item.multimedia && item.multimedia[0]) { %>
-              <div class="col-auto d-flex align-items-center">
-                <img src="<%= item.multimedia[0].url %>" alt="" class="news-img" />
-              </div>
-            <% } %>
           </div>
         </div>
-      <% }); %>
+      </div>
+      
+      <div class="col-md-6 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h3 class="card-title mb-3">Popular Locations</h3>
+            <div class="row g-2">
+              <div class="col-6">
+                <div class="p-3 border rounded text-center popular-city" data-city="London">
+                  <i class="fas fa-city mb-2"></i>
+                  <h5 class="mb-0">London</h5>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="p-3 border rounded text-center popular-city" data-city="New York">
+                  <i class="fas fa-city mb-2"></i>
+                  <h5 class="mb-0">New York</h5>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="p-3 border rounded text-center popular-city" data-city="Tokyo">
+                  <i class="fas fa-city mb-2"></i>
+                  <h5 class="mb-0">Tokyo</h5>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="p-3 border rounded text-center popular-city" data-city="Sydney">
+                  <i class="fas fa-city mb-2"></i>
+                  <h5 class="mb-0">Sydney</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <script>
+    // Add click event to popular cities
+    document.querySelectorAll('.popular-city').forEach(city => {
+      city.addEventListener('click', function() {
+        const cityName = this.getAttribute('data-city');
+        document.getElementById('location').value = cityName;
+        document.querySelector('form').submit();
+      });
+    });
+  </script>
 <% } %>
+
 <%- include("footer.ejs") %>

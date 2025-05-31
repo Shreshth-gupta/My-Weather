@@ -1,28 +1,213 @@
+<div class="main-container">
+  <div class="weather-hero weather-<%= weatherData_c.weather[0].main.toLowerCase() %>">
+    <div class="row">
+      <div class="col-md-6">
+        <h1 class="weather-city"><i class="fas fa-map-marker-alt me-2"></i><%= weatherData_c.name %>, <%= weatherData_c.sys.country %></h1>
+        <div class="d-flex align-items-center mb-3">
+          <img 
+            src="https://openweathermap.org/img/wn/<%= weatherData_c.weather[0].icon %>@2x.png" 
+            alt="<%= weatherData_c.weather[0].description %>" 
+            class="weather-icon"
+          >
+          <div>
+            <p class="weather-temp"><%= Math.round(weatherData_c.main.temp) %>°C</p>
+            <p class="weather-description text-capitalize"><%= weatherData_c.weather[0].description %></p>
+          </div>
+        </div>
+        <p class="mb-2">Feels like <%= Math.round(weatherData_c.main.feels_like) %>°C</p>
+        <p class="mb-3">Updated: <%= new Date(weatherData_c.dt * 1000).toLocaleTimeString() %></p>
+      </div>
+      <div class="col-md-6">
+        <div class="weather-details">
+          <div class="weather-detail-item">
+            <span class="weather-detail-label"><i class="fas fa-temperature-high"></i> High/Low</span>
+            <span class="weather-detail-value"><%= Math.round(weatherData_c.main.temp_max) %>° / <%= Math.round(weatherData_c.main.temp_min) %>°</span>
+          </div>
+          <div class="weather-detail-item">
+            <span class="weather-detail-label"><i class="fas fa-wind"></i> Wind</span>
+            <span class="weather-detail-value"><%= Math.round(weatherData_c.wind.speed * 3.6) %> km/h</span>
+          </div>
+          <div class="weather-detail-item">
+            <span class="weather-detail-label"><i class="fas fa-tint"></i> Humidity</span>
+            <span class="weather-detail-value"><%= weatherData_c.main.humidity %>%</span>
+          </div>
+          <div class="weather-detail-item">
+            <span class="weather-detail-label"><i class="fas fa-compress-arrows-alt"></i> Pressure</span>
+            <span class="weather-detail-value"><%= weatherData_c.main.pressure %> hPa</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<div id="openweathermap-widget-container" class="weather-widget-container">
-  <div id="openweathermap-widget-15"></div>
+  <div class="forecast-section">
+    <h2 class="forecast-heading">5-Day Forecast</h2>
+    <div id="forecast-container" class="forecast-container">
+      <!-- Forecast data will be loaded here -->
+      <div class="text-center p-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="map-section">
+    <h2 class="forecast-heading">Weather Map</h2>
+    <div class="map-container">
+      <div id="weather-map"></div>
+    </div>
+    <div class="map-controls">
+      <button class="map-control-btn active" data-layer="temp">Temperature</button>
+      <button class="map-control-btn" data-layer="clouds">Clouds</button>
+      <button class="map-control-btn" data-layer="precipitation">Precipitation</button>
+      <button class="map-control-btn" data-layer="wind">Wind</button>
+      <button class="map-control-btn" data-layer="pressure">Pressure</button>
+    </div>
+  </div>
 </div>
 
 <script>
-  var weatherData_c = JSON.parse('<%- JSON.stringify(weatherData_c) %>');
-  console.log("in the script tag with wedge");
-  console.log(weatherData_c);
-
-  window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];
-  window.myWidgetParam.push({
-    id: 15,
-    cityid: weatherData_c.id,
-    appid: "9fdf6e808cfe2098244e8ab9e85fda33",
-    units: "metric",
-    containerid: "openweathermap-widget-15",
+  // Get weather data from EJS
+  const weatherData = JSON.parse('<%- JSON.stringify(weatherData_c) %>');
+  const API_KEY = '9fdf6e808cfe2098244e8ab9e85fda33';
+  const city = weatherData.name;
+  const lat = weatherData.coord.lat;
+  const lon = weatherData.coord.lon;
+  
+  // Initialize map with a small delay to ensure container is ready
+  setTimeout(() => {
+    const map = L.map('weather-map').setView([lat, lon], 10);
+  
+  // Add base map layer
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+  
+  // Add city marker
+  L.marker([lat, lon])
+    .addTo(map)
+    .bindPopup(`<b>${city}</b><br>Current: ${Math.round(weatherData.main.temp)}°C`)
+    .openPopup();
+  
+  // Weather layers
+  const layers = {
+    temp: L.tileLayer(`https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=${API_KEY}`),
+    clouds: L.tileLayer(`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${API_KEY}`),
+    precipitation: L.tileLayer(`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${API_KEY}`),
+    wind: L.tileLayer(`https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=${API_KEY}`),
+    pressure: L.tileLayer(`https://tile.openweathermap.org/map/pressure_new/{z}/{x}/{y}.png?appid=${API_KEY}`)
+  };
+  
+  // Add temperature layer by default
+  layers.temp.addTo(map);
+  
+  // Handle layer button clicks
+  document.querySelectorAll('.map-control-btn').forEach(button => {
+    button.addEventListener('click', function() {
+      // Remove active class from all buttons
+      document.querySelectorAll('.map-control-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Add active class to clicked button
+      this.classList.add('active');
+      
+      // Remove all layers
+      Object.values(layers).forEach(layer => {
+        map.removeLayer(layer);
+      });
+      
+      // Add selected layer
+      const layerName = this.getAttribute('data-layer');
+      layers[layerName].addTo(map);
+    });
   });
-
-  (function () {
-    var script = document.createElement("script");
-    script.async = true;
-    script.charset = "utf-8";
-    script.src ="//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(script, s);
-  })();
+  
+  // Fetch 5-day forecast
+  async function fetchForecast() {
+    try {
+      const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
+      const forecastData = response.data;
+      
+      // Process forecast data (group by day)
+      const dailyForecasts = {};
+      
+      forecastData.list.forEach(item => {
+        const date = new Date(item.dt * 1000);
+        const day = date.toLocaleDateString('en-US', { weekday: 'short' });
+        const dayDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        
+        if (!dailyForecasts[day]) {
+          dailyForecasts[day] = {
+            date: dayDate,
+            temps: [],
+            icons: [],
+            descriptions: []
+          };
+        }
+        
+        dailyForecasts[day].temps.push(item.main.temp);
+        dailyForecasts[day].icons.push(item.weather[0].icon);
+        dailyForecasts[day].descriptions.push(item.weather[0].description);
+      });
+      
+      // Create forecast cards
+      const forecastContainer = document.getElementById('forecast-container');
+      forecastContainer.innerHTML = '';
+      
+      Object.keys(dailyForecasts).slice(0, 5).forEach(day => {
+        const forecast = dailyForecasts[day];
+        
+        // Calculate min and max temps
+        const minTemp = Math.round(Math.min(...forecast.temps));
+        const maxTemp = Math.round(Math.max(...forecast.temps));
+        
+        // Get most common icon and description
+        const iconCounts = {};
+        forecast.icons.forEach(icon => {
+          iconCounts[icon] = (iconCounts[icon] || 0) + 1;
+        });
+        
+        const mostCommonIcon = Object.keys(iconCounts).reduce((a, b) => 
+          iconCounts[a] > iconCounts[b] ? a : b
+        );
+        
+        const descriptionCounts = {};
+        forecast.descriptions.forEach(desc => {
+          descriptionCounts[desc] = (descriptionCounts[desc] || 0) + 1;
+        });
+        
+        const mostCommonDescription = Object.keys(descriptionCounts).reduce((a, b) => 
+          descriptionCounts[a] > descriptionCounts[b] ? a : b
+        );
+        
+        // Create forecast card
+        const forecastCard = document.createElement('div');
+        forecastCard.className = 'forecast-card';
+        forecastCard.innerHTML = `
+          <div class="forecast-day">${day}</div>
+          <div class="forecast-date">${forecast.date}</div>
+          <img src="https://openweathermap.org/img/wn/${mostCommonIcon}@2x.png" alt="${mostCommonDescription}" class="forecast-icon">
+          <div class="forecast-temp">${maxTemp}°C</div>
+          <div class="forecast-temp-range">${minTemp}° - ${maxTemp}°</div>
+          <div class="forecast-description text-capitalize">${mostCommonDescription}</div>
+        `;
+        
+        forecastContainer.appendChild(forecastCard);
+      });
+      
+    } catch (error) {
+      console.error('Error fetching forecast:', error);
+      document.getElementById('forecast-container').innerHTML = `
+        <div class="alert alert-danger">
+          Unable to load forecast data. Please try again later.
+        </div>
+      `;
+    }
+  }
+  
+  // Call the forecast function
+  fetchForecast();
+  }, 100);
 </script>

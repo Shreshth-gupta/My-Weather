@@ -1,0 +1,95 @@
+<%- include("header.ejs", { active: 'about' }) %>
+
+<div class="main-container">
+  <div class="card mb-5">
+    <div class="card-body p-5">
+      <h1 class="mb-4">About Weather Forecast</h1>
+      
+      <p class="lead mb-4">
+        Weather Forecast is a modern weather application designed to provide accurate and up-to-date weather information for locations around the world.
+      </p>
+      
+      <h2 class="h4 mb-3">Features</h2>
+      <ul class="mb-4">
+        <li>Current weather conditions with detailed metrics</li>
+        <li>5-day and 7-day weather forecasts</li>
+        <li>Interactive weather maps with multiple layers</li>
+        <li>Temperature and precipitation trend charts</li>
+        <li>Latest weather news and updates</li>
+      </ul>
+      
+      <h2 class="h4 mb-3">Data Sources</h2>
+      <p class="mb-4">
+        Weather Forecast uses data from the following sources:
+      </p>
+      <ul class="mb-4">
+        <li><strong>OpenWeatherMap API</strong> - For weather data, forecasts, and map layers</li>
+        <li><strong>New York Times API</strong> - For weather-related news and articles</li>
+      </ul>
+      
+      <h2 class="h4 mb-3">Technologies Used</h2>
+      <div class="row mb-4">
+        <div class="col-md-4">
+          <div class="card mb-3">
+            <div class="card-body">
+              <h3 class="h5 mb-3">Frontend</h3>
+              <ul class="list-unstyled">
+                <li><i class="fab fa-html5 me-2"></i> HTML5</li>
+                <li><i class="fab fa-css3-alt me-2"></i> CSS3</li>
+                <li><i class="fab fa-js me-2"></i> JavaScript</li>
+                <li><i class="fab fa-bootstrap me-2"></i> Bootstrap 5</li>
+                <li><i class="fas fa-chart-line me-2"></i> Chart.js</li>
+                <li><i class="fas fa-map me-2"></i> Leaflet.js</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card mb-3">
+            <div class="card-body">
+              <h3 class="h5 mb-3">Backend</h3>
+              <ul class="list-unstyled">
+                <li><i class="fab fa-node-js me-2"></i> Node.js</li>
+                <li><i class="fab fa-node-js me-2"></i> Express.js</li>
+                <li><i class="fas fa-file-code me-2"></i> EJS Templates</li>
+                <li><i class="fas fa-server me-2"></i> RESTful APIs</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card mb-3">
+            <div class="card-body">
+              <h3 class="h5 mb-3">Tools & Services</h3>
+              <ul class="list-unstyled">
+                <li><i class="fab fa-github me-2"></i> GitHub</li>
+                <li><i class="fas fa-cloud me-2"></i> OpenWeatherMap</li>
+                <li><i class="far fa-newspaper me-2"></i> NY Times API</li>
+                <li><i class="fas fa-code me-2"></i> VS Code</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <h2 class="h4 mb-3">How It Works</h2>
+      <p class="mb-4">
+        Weather Forecast uses the OpenWeatherMap API to fetch current weather conditions and forecast data for any location worldwide. 
+        The application processes this data and presents it in an easy-to-understand format with visual elements like charts and maps.
+      </p>
+      <p class="mb-4">
+        The interactive weather maps use Leaflet.js with OpenWeatherMap map layers to display various weather conditions such as temperature, 
+        precipitation, clouds, wind, and pressure. The forecast charts are created using Chart.js to visualize temperature trends and 
+        precipitation probabilities over time.
+      </p>
+      
+      <h2 class="h4 mb-3">Contact</h2>
+      <p>
+        For questions, feedback, or support, please contact us at:
+        <a href="mailto:shreshthagupta79@gmail.com">shreshthagupta79@gmail.com</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<%- include("footer.ejs") %>

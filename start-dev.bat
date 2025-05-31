@@ -1,0 +1,3 @@
+@echo off
+echo Starting development server...
+nodemon index.js
