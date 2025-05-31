@@ -2,7 +2,7 @@
 
 A modern, responsive weather application that provides real-time weather data and forecasts along with relevant news updates.
 
-![Weather App](https://my-weather-t8pc.onrender.com)
+You can check out the project here:- https://my-weather-t8pc.onrender.com
 
 ## Features
 
